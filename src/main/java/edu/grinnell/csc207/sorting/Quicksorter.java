@@ -1,6 +1,7 @@
 package edu.grinnell.csc207.sorting;
 
 import java.util.Comparator;
+import java.util.Random;
 
 /**
  * Something that sorts using Quicksort.
@@ -20,6 +21,9 @@ public class Quicksorter<T> implements Sorter<T> {
    * The way in which elements are ordered.
    */
   Comparator<? super T> order;
+
+
+  static Random rand = new Random();
 
   // +--------------+------------------------------------------------
   // | Constructors |
@@ -55,6 +59,45 @@ public class Quicksorter<T> implements Sorter<T> {
    */
   @Override
   public void sort(T[] values) {
+    T[] tmp = values.clone();
+    
+    sortHelper(values, tmp, 0, values.length - 1);
     // STUB
   } // sort(T[])
+
+
+  
+  public void sortHelper(T[] values, T[] tmp, int lb, int ub) {
+    
+    int pivot = rand.nextInt(ub - lb);
+
+    if(ub - lb <= 1) {
+      return;
+    }
+    else {
+
+      sortHelper(values, tmp, lb, pivot - 1); //Splits into left array
+      sortHelper(values, tmp, pivot + 1, ub); //Splits into right array
+
+      merge(values, tmp, pivot, lb, ub);
+    }
+
+  }
+
+
+  public void merge(T[] values, T[] tmp, int pivot, int lb, int ub) {
+
+    for(int i = lb; i <= ub; i++) {
+      tmp[i] = values[i];
+    }
+
+    for(int i = lb; i <= ub; i++) {
+      if(order.compare(values[pivot], values[i]) <= 0) {
+        
+      }
+    }
+    
+
+
+  }
 } // class Quicksorter
