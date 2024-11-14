@@ -94,7 +94,7 @@ public class Quicksorter<T> implements Sorter<T> {
     ArrayUtils.swap(values, pivot, ub);
 
     for(int i = lb; i < ub; i++) {
-      if(order.compare(values[i], values[pivot]) < 0) {
+      if(order.compare(values[i], values[ub]) < 0) {
         ArrayUtils.swap(values, index, i);
         index++;
       }
