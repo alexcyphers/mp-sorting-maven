@@ -58,7 +58,6 @@ public class InsertionSorter<T> implements Sorter<T> {
   @Override
   public void sort(T[] values) {
    
-
     for(int i = 0; i<values.length; i++){
 
       int index = i;
@@ -70,5 +69,6 @@ public class InsertionSorter<T> implements Sorter<T> {
       }
       ArrayUtils.swap(values, i, index);
     }
+    
   } // sort(T[])
 } // class InsertionSorter
