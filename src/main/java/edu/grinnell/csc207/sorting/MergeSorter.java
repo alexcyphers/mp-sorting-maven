@@ -40,6 +40,10 @@ public class MergeSorter<T> implements Sorter<T> {
   // | Methods |
   // +---------+
 
+
+
+
+  
   /**
    * Sort an array in place using merge sort.
    *
@@ -55,6 +59,51 @@ public class MergeSorter<T> implements Sorter<T> {
    */
   @Override
   public void sort(T[] values) {
+
+    T[] tmp = values.clone();
     
+    sortHelper(values, tmp, 0, values.length - 1);
   } // sort(T[])
+
+
+  public void sortHelper(T[] values, T[] tmp, int lb, int ub) {
+    if(lb >= ub){
+      return;
+    }
+    else {
+      int mid = lb + ((ub - lb) / 2);
+
+      sortHelper(values, tmp, lb, mid);
+      sortHelper(values, tmp, mid + 1, ub);
+
+      merge(values, tmp, lb, ub - 1);
+    }
+  }
+
+  public void merge(T[] values, T[] tmp, int lb, int ub) {
+
+    int mid = (lb + ((ub - lb) / 2)) + 1;
+
+    for(int i = lb; i <= ub; i++) {
+      values[i] = tmp[i];
+    }
+
+    int valIndex = lb;
+    int startIndex = lb;
+    int midIndex = mid;
+
+    while((valIndex != mid) && (mid != ub + 1)) {
+      if(order.compare(values[valIndex], tmp[midIndex]) <= 0) {
+        values[valIndex] = tmp[startIndex];
+        startIndex++;
+      }
+      else if(order.compare(values[valIndex], tmp[midIndex]) > 0){
+        values[valIndex] = tmp[midIndex];
+        midIndex++;
+      }
+      valIndex++;
+    }
+  }
+
+
 } // class MergeSorter
