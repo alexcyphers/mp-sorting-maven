@@ -67,7 +67,7 @@ public class MergeSorter<T> implements Sorter<T> {
 
 
   public void sortHelper(T[] values, T[] tmp, int lb, int ub) {
-    
+
     if(lb >= ub){
       return;
     }
@@ -95,7 +95,7 @@ public class MergeSorter<T> implements Sorter<T> {
     int midIndex = mid + 1; // Index of right side of the array.
 
     while((startIndex != mid + 1) && (midIndex != ub + 1)) {
-      if(order.compare(tmp[valIndex], tmp[midIndex]) <= 0) {
+      if(order.compare(tmp[startIndex], tmp[midIndex]) <= 0) {
         values[valIndex] = tmp[startIndex];
         startIndex++;
       }
