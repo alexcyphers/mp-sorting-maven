@@ -67,6 +67,7 @@ public class MergeSorter<T> implements Sorter<T> {
 
 
   public void sortHelper(T[] values, T[] tmp, int lb, int ub) {
+    
     if(lb >= ub){
       return;
     }
@@ -76,31 +77,38 @@ public class MergeSorter<T> implements Sorter<T> {
       sortHelper(values, tmp, lb, mid);
       sortHelper(values, tmp, mid + 1, ub);
 
-      merge(values, tmp, lb, ub - 1);
+      merge(values, tmp, lb, ub);
     }
   }
 
   public void merge(T[] values, T[] tmp, int lb, int ub) {
 
-    int mid = (lb + ((ub - lb) / 2)) + 1;
+    int mid = (lb + ((ub - lb) / 2));
 
+    //Copy the values into the temporary array.
     for(int i = lb; i <= ub; i++) {
-      values[i] = tmp[i];
+      tmp[i] = values[i];
     }
 
-    int valIndex = lb;
-    int startIndex = lb;
-    int midIndex = mid;
+    int valIndex = lb; // Index where we are sorting the smallest element.
+    int startIndex = lb; // Index of left side of the array.
+    int midIndex = mid + 1; // Index of right side of the array.
 
-    while((valIndex != mid) && (mid != ub + 1)) {
-      if(order.compare(values[valIndex], tmp[midIndex]) <= 0) {
+    while((startIndex != mid + 1) && (midIndex != ub + 1)) {
+      if(order.compare(tmp[valIndex], tmp[midIndex]) <= 0) {
         values[valIndex] = tmp[startIndex];
         startIndex++;
       }
-      else if(order.compare(values[valIndex], tmp[midIndex]) > 0){
+      else {
         values[valIndex] = tmp[midIndex];
         midIndex++;
       }
+      valIndex++;
+    }
+
+    while(startIndex != mid + 1) {
+      values[valIndex] = tmp[startIndex];
+      startIndex++;
       valIndex++;
     }
   }
