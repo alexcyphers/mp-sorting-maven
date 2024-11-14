@@ -3,6 +3,8 @@ package edu.grinnell.csc207.sorting;
 import java.util.Comparator;
 import java.util.Random;
 
+import edu.grinnell.csc207.util.ArrayUtils;
+
 /**
  * Something that sorts using Quicksort.
  *
@@ -59,45 +61,47 @@ public class Quicksorter<T> implements Sorter<T> {
    */
   @Override
   public void sort(T[] values) {
-    T[] tmp = values.clone();
     
-    sortHelper(values, tmp, 0, values.length - 1);
+    sortHelper(values, 0, values.length - 1);
     // STUB
   } // sort(T[])
 
 
   
-  public void sortHelper(T[] values, T[] tmp, int lb, int ub) {
-    
-    int pivot = rand.nextInt(ub - lb);
+  public void sortHelper(T[] values, int lb, int ub) {
 
-    if(ub - lb <= 1) {
+    if(ub < lb) {
       return;
     }
     else {
 
-      sortHelper(values, tmp, lb, pivot - 1); //Splits into left array
-      sortHelper(values, tmp, pivot + 1, ub); //Splits into right array
+      int pivot = partition(values, lb, ub);
 
-      merge(values, tmp, pivot, lb, ub);
+      sortHelper(values, lb, pivot - 1); //Splits into left array
+      sortHelper(values, pivot + 1, ub); //Splits into right array
     }
 
   }
 
 
-  public void merge(T[] values, T[] tmp, int pivot, int lb, int ub) {
+  public int partition(T[] values, int lb, int ub) {
 
-    for(int i = lb; i <= ub; i++) {
-      tmp[i] = values[i];
-    }
+    int pivot = lb + rand.nextInt(ub - lb + 1);
+    //Find the random index for a pivot
 
-    for(int i = lb; i <= ub; i++) {
-      if(order.compare(values[pivot], values[i]) <= 0) {
-        
+    int index = lb;
+
+    ArrayUtils.swap(values, pivot, ub);
+
+    for(int i = lb; i < ub; i++) {
+      if(order.compare(values[i], values[pivot]) < 0) {
+        ArrayUtils.swap(values, index, i);
+        index++;
       }
     }
+
+    ArrayUtils.swap(values, index, ub);
     
-
-
+    return index;
   }
 } // class Quicksorter
