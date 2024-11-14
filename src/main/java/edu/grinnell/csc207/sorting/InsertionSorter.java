@@ -1,13 +1,15 @@
 package edu.grinnell.csc207.sorting;
 
 import java.util.Comparator;
+import edu.grinnell.csc207.util.ArrayUtils;
 
 /**
  * Something that sorts using insertion sort.
  *
  * @param <T>
  *   The types of values that are sorted.
- *
+ * 
+ * @author Alex Cyphers
  * @author Samuel A. Rebelsky
  */
 
@@ -55,6 +57,18 @@ public class InsertionSorter<T> implements Sorter<T> {
    */
   @Override
   public void sort(T[] values) {
-    // STUB
+   
+
+    for(int i = 0; i<values.length; i++){
+
+      int index = i;
+
+      for(int j = i+1; j<values.length; j++){
+        if(order.compare(values[j-1], values[j]) > 0){
+          index = j;
+        }
+      }
+      ArrayUtils.swap(values, i, index);
+    }
   } // sort(T[])
 } // class InsertionSorter
