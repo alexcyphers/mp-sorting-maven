@@ -1,6 +1,7 @@
 package edu.grinnell.csc207.sorting;
 
 import java.util.Comparator;
+import edu.grinnell.csc207.util.ArrayUtils;
 
 /**
  * Something that sorts using insertion sort.
@@ -56,15 +57,57 @@ public class CyphersAlexSort <T> implements Sorter<T> {
    */
   @Override
   public void sort(T[] values) {
+    
     if(values.length < 16) {
-      InsertionSorter<T>();
+      InsertionSorter<T> insertionSort = new InsertionSorter<>(order);
+      insertionSort.sort(values);
     }
-    else if {
-      //QuickSort
+    else if(values.length < 10000) {
+      fastQuickSort(values, 0, values.length - 1);
     }
     else {
-      //MergeSort
+      MergeSorter<T> mergeSort = new MergeSorter<>(order);
+      mergeSort.sort(values);
     }
 
   } // sort(T[])
+
+
+
+  public void fastQuickSort(T[] values, int lb, int hb) {
+
+    if(lb < hb) {
+      return;
+    }
+
+    T pivot1 = values[lb];
+    T pivot2 = values[hb];
+
+    int low = lb + 1;
+    int high = hb - 1;
+    //int i = lb + 1;
+
+    for(int i = lb + 1; i <= high + 1; i++) {
+      if(order.compare(values[i], pivot1) < 0) {
+        ArrayUtils.swap(values, i, low);
+        low++;
+      }
+      else if(order.compare(values[i], pivot2) > 0) {
+        ArrayUtils.swap(values, i, high);
+        high--;
+        i--;
+      }
+    }
+
+    low--;
+    high++;
+    ArrayUtils.swap(values, lb, low);
+    ArrayUtils.swap(values, hb, high);
+
+    fastQuickSort(values, lb, low-1);
+    fastQuickSort(values, low + 1, high - 1);
+    fastQuickSort(values, high + 1, hb);
+
+  }
 } // class InsertionSorter
+
