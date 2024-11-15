@@ -103,6 +103,21 @@ public class TestSorter {
   } // orderedStringTest
 
   /**
+   * Ensure that an array with randomly ordered strings gets sorted correctly.
+   */
+  @Test
+  public void permutedStringsTest() {
+    if (null == stringSorter) {
+      return;
+    } // if
+
+    String[] original = { "foxtrot", "delta", "charlie", "bravo", "alpha" };
+    ArrayUtils.permute(original);
+    String[] expected = { "alpha", "bravo", "charlie", "delta", "foxtrot" };
+    assertSorts(expected, original, stringSorter);
+  } // permutedStringsTest
+
+  /**
    * Ensure that a randomly permuted version of a moderate-sized
    * array sorts correctly.
    */
@@ -120,4 +135,104 @@ public class TestSorter {
     ArrayUtils.permute(original);
     assertSorts(expected, original, intSorter);
   } // permutedIntegers
+
+
+  /**
+   * Ensure that an ordered version of a moderate-sized
+   * array sorts correctly.
+   */
+  @Test 
+  public void orderedIntegersTest() { 
+    int SIZE = 20; 
+    if (null == intSorter) { 
+      return; 
+    } // if
+    Integer[] original = new Integer[SIZE];
+    for (int i = 0; i < SIZE; i++) {
+      original[i] = i;
+    } // for
+    Integer[] expected = original.clone();
+    assertSorts(expected, original, intSorter);
+  } // orderedIntegers
+
+
+   /**
+   * Ensure that a reversed version of a moderate-sized
+   * array sorts correctly.
+   */
+  @Test 
+  public void reverseIntegersTest() { 
+    int SIZE = 20; 
+    if (null == intSorter) { 
+      return; 
+    } // if
+    Integer[] original = new Integer[SIZE];
+
+    int index = 0;
+    for (int i = SIZE-1; i >= 0; i++) {
+      original[index++] = i;
+    } // for
+    Integer[] expected = original.clone();
+    assertSorts(expected, original, intSorter);
+  } // reverseIntegers
+
+
+  /**
+   * Ensure that an array with only one integer
+   * sorts correctly.
+   */
+  @Test 
+  public void singleIntegerTest() { 
+    if (null == intSorter) { 
+      return; 
+    } // if
+
+    Integer[] original = { 1 };
+    Integer[] expected = { 1 };
+    assertSorts(expected, original, intSorter);
+  } // singleInteger
+
+
+   /**
+   * Ensure that an array with only two integers in reversed order
+   * sorts correctly.
+   */
+  @Test 
+  public void twoIntegersTest() { 
+    if (null == intSorter) { 
+      return; 
+    } // if
+    
+    Integer[] original = { 2, 1 };
+    Integer[] expected = { 2, 1 };
+    assertSorts(expected, original, intSorter);
+  } // twoIntegers
+
+
+  
+   /**
+   * Ensure that a permuted array of characters
+   * sorts correctly
+   */
+  @Test 
+  public void permutedCharactersTest() { 
+    int SIZE = 26; 
+    if (null == intSorter) { 
+      return; 
+    } // if
+    Integer[] original = new Integer[SIZE];
+    for (int ch = 'a'; ch < SIZE; ch++) {
+      original[ch] = ch;
+    } // for
+    Integer[] expected = original.clone();
+    ArrayUtils.permute(original);
+    assertSorts(expected, original, intSorter);
+  } // permutedCharacters
+
+
+
+
+
+  
+
 } // class TestSorter

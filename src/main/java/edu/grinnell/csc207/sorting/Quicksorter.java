@@ -67,7 +67,12 @@ public class Quicksorter<T> implements Sorter<T> {
   } // sort(T[])
 
 
-  
+  /**
+   * 
+   * @param values
+   * @param lb
+   * @param ub
+   */
   public void sortHelper(T[] values, int lb, int ub) {
 
     if(ub < lb) {
@@ -83,7 +88,15 @@ public class Quicksorter<T> implements Sorter<T> {
 
   }
 
-
+  
+  
+  /**
+   * 
+   * @param values
+   * @param lb
+   * @param ub
+   * @return
+   */
   public int partition(T[] values, int lb, int ub) {
 
     int pivot = lb + rand.nextInt(ub - lb + 1);
