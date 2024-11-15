@@ -76,18 +76,23 @@ public class CyphersAlexSort <T> implements Sorter<T> {
 
   public void fastQuickSort(T[] values, int lb, int hb) {
 
-    if(lb < hb) {
+    if(hb < lb) {
       return;
     }
 
     T pivot1 = values[lb];
     T pivot2 = values[hb];
 
+    if(order.compare(values[lb], values[hb]) > 0) {
+      ArrayUtils.swap(values, lb, hb);
+    }
+
+
     int low = lb + 1;
     int high = hb - 1;
-    //int i = lb + 1;
 
-    for(int i = lb + 1; i <= high + 1; i++) {
+
+    for(int i = lb + 1; i <= high; i++) {
       if(order.compare(values[i], pivot1) < 0) {
         ArrayUtils.swap(values, i, low);
         low++;
