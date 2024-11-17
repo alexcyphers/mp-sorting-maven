@@ -102,11 +102,15 @@ public class CyphersAlexSort<T> implements Sorter<T> {
     //Inserts the pivot values into the proper parts of the array.
     for (int i = low; i <= high;) {
       if (order.compare(values[i], pivot1) < 0) {
-        ArrayUtils.swap(values, i, low);
+        if (i != low) {
+          ArrayUtils.swap(values, i, low);
+        } // if
         low++;
         i++;
       } else if (order.compare(values[i], pivot2) > 0) {
-        ArrayUtils.swap(values, i, high);
+        if (i != high) {
+          ArrayUtils.swap(values, i, high);
+        } // if
         high--;
       } else {
         i++;
@@ -117,26 +121,36 @@ public class CyphersAlexSort<T> implements Sorter<T> {
     high++;
     ArrayUtils.swap(values, lb, low);
     ArrayUtils.swap(values, hb, high);
-    
+
     fastQuickSort(values, lb, low - 1);
     fastQuickSort(values, low + 1, high - 1);
     fastQuickSort(values, high + 1, hb);
   } // fastQuickSort(T[], int, int)
 
 
+
+  /**
+   * Checks to see if the array is at least 90% reversed.
+   *
+   * @param values
+   *  The array of values ro check.
+   * @return
+   *  True or false depending on if it's reversed.
+   */
   public Boolean isReversed(T[] values) {
     //Check through the array until a value in order is found.
-    int expect = 0;
+    int ordered = 0;
+    int ceiling = (int) (values.length * 0.1);
     for (int i = 0; i < values.length - 1; i++) {
       if (order.compare(values[i], values[i + 1]) < 0) {
-        expect++;
+        ordered++;
       } // if
 
-      if (expect > values.length * 0.1) {
+      if (ordered > ceiling) {
         return false;
-      }
+      } // if
     } // for-loop
     return true;
-  }
+  } // isReversed(T[])
 } // class InsertionSorter
 
