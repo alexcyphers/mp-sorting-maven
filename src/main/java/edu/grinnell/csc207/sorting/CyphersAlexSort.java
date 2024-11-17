@@ -57,16 +57,16 @@ public class CyphersAlexSort<T> implements Sorter<T> {
    */
   @Override
   public void sort(T[] values) {
-
-    if (values.length < 16) {
-      InsertionSorter<T> insertionSort = new InsertionSorter<>(order);
-      insertionSort.sort(values);
-    } else if (values.length < 10000) {
-      fastQuickSort(values, 0, values.length - 1);
-    } else {
-      MergeSorter<T> mergeSort = new MergeSorter<>(order);
-      mergeSort.sort(values);
-    } // if/else
+    fastQuickSort(values, 0, values.length - 1);
+    // if (values.length < 11) {
+    //   InsertionSorter<T> insertionSort = new InsertionSorter<>(order);
+    //   insertionSort.sort(values);
+    // } else if (values.length < 10000) {
+    //   fastQuickSort(values, 0, values.length - 1);
+    // } else {
+    //   MergeSorter<T> mergeSort = new MergeSorter<>(order);
+    //   mergeSort.sort(values);
+    // } // if/else
   } // sort(T[])
 
 
@@ -98,14 +98,16 @@ public class CyphersAlexSort<T> implements Sorter<T> {
     int high = hb - 1;
 
     //Inserts the pivot values into the proper parts of the array.
-    for (int i = lb + 1; i <= high; i++) {
+    for (int i = lb + 1; i <= high;) {
       if (order.compare(values[i], pivot1) < 0) {
         ArrayUtils.swap(values, i, low);
         low++;
+        i++;
       } else if (order.compare(values[i], pivot2) > 0) {
         ArrayUtils.swap(values, i, high);
         high--;
-        i--;
+      } else {
+        i++;
       } // else/if
     } // for-loop
 
@@ -115,9 +117,12 @@ public class CyphersAlexSort<T> implements Sorter<T> {
     ArrayUtils.swap(values, hb, high);
 
     fastQuickSort(values, lb, low - 1);
-    fastQuickSort(values, low + 1, high - 1);
-    fastQuickSort(values, high + 1, hb);
 
+    if(low + 1 <= high - 1) {
+      fastQuickSort(values, low + 1, high - 1);
+    } // if
+  
+    fastQuickSort(values, high + 1, hb);
   } // fastQuickSort(T[], int, int)
 } // class InsertionSorter
 

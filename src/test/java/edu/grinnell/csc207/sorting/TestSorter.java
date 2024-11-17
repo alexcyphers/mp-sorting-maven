@@ -36,6 +36,11 @@ public class TestSorter {
    */
   static Sorter<Integer> intSorter = null;
 
+  /**
+   * The sorter we use to sort arrays of integers.
+   */
+  static Sorter<Integer> charSorter = null;
+
   // +-----------+---------------------------------------------------
   // | Utilities |
   // +-----------+
@@ -169,10 +174,15 @@ public class TestSorter {
     Integer[] original = new Integer[SIZE];
 
     int index = 0;
-    for (int i = SIZE-1; i >= 0; i++) {
+    for (int i = SIZE-1; i >= 0; i--) {
       original[index++] = i;
     } // for
-    Integer[] expected = original.clone();
+
+    Integer[] expected = new Integer[SIZE];
+    for (int i = 0; i < SIZE; i++) {
+      expected[i] = i;
+    } // for
+
     assertSorts(expected, original, intSorter);
   } // reverseIntegers
 
@@ -204,7 +214,7 @@ public class TestSorter {
     } // if
     
     Integer[] original = { 2, 1 };
-    Integer[] expected = { 2, 1 };
+    Integer[] expected = { 1, 2 };
     assertSorts(expected, original, intSorter);
   } // twoIntegers
 
@@ -216,8 +226,8 @@ public class TestSorter {
    */
   @Test 
   public void permutedCharactersTest() { 
-    int SIZE = 26; 
-    if (null == intSorter) { 
+    int SIZE = 123; //Ascii Alphabet Size
+    if (null == charSorter) { 
       return; 
     } // if
     Integer[] original = new Integer[SIZE];

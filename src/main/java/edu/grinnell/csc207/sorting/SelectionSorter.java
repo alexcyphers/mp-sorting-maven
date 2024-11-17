@@ -59,19 +59,32 @@ public class SelectionSorter<T> implements Sorter<T> {
   public void sort(T[] values) {
     // Search through the array to find the smallest element and sort it.
     for (int i = 0; i < values.length; i++) {
-      int index = i;
-      // Find the smallest element in the array.
-      for (int j = i + 1; j < values.length; j++) {
-        // Check if the element is the smallest being checked.
-        if (order.compare(values[j], values[index]) <= 0) {
-          index = j;
-        } // if
-      } // for-loop
-
-      // A check to see if the smallest element is in the correct place.
-      if (index != i) {
-        ArrayUtils.swap(values, i, index);
-      } // if
+      select(values, i);
     } // for-loop
   } // sort(T[])
+
+  /**
+   * Finds the smallest element from the given positions at
+   * index, i, and swaps it.
+   *
+   * @param values
+   *  The array being sorted.
+   * @param i
+   *  The index that we are checking after.
+   */
+  public void select(T[] values, int i) {
+    int index = i;
+    // Find the smallest element in the array.
+    for (int j = i + 1; j < values.length; j++) {
+      // Check if the element is the smallest being checked.
+      if (order.compare(values[j], values[index]) <= 0) {
+        index = j;
+      } // if
+    } // for-loop
+
+    // A check to see if the smallest element is in the correct place.
+    if (index != i) {
+      ArrayUtils.swap(values, i, index);
+    } // if
+  } // select(T[], int)
 } // class SelectionSorter
