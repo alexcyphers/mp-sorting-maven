@@ -43,7 +43,7 @@ public class MergeSorter<T> implements Sorter<T> {
 
 
 
-  
+
   /**
    * Sort an array in place using merge sort.
    *
@@ -61,57 +61,85 @@ public class MergeSorter<T> implements Sorter<T> {
   public void sort(T[] values) {
 
     T[] tmp = values.clone();
-    
+
     sortHelper(values, tmp, 0, values.length - 1);
   } // sort(T[])
 
 
+
+  /**
+   * Helps sort the array by using merge sort with recursion.
+   *
+   * @param values
+   *  an array to sort.
+   * @param tmp
+   *  a temporary array used to help sort the array.
+   * @param lb
+   *  the lowerbound of the current portion of the array being sorted.
+   * @param ub
+   *  the lowerbound of the current portion of the array being sorted.
+   */
   public void sortHelper(T[] values, T[] tmp, int lb, int ub) {
 
-    if(lb >= ub){
+    //Base case saying when there is no more array to sort.
+    if (lb >= ub) {
       return;
-    }
-    else {
+    } else {
       int mid = lb + ((ub - lb) / 2);
 
       sortHelper(values, tmp, lb, mid);
       sortHelper(values, tmp, mid + 1, ub);
 
       merge(values, tmp, lb, ub);
-    }
-  }
+    } // if/else
+  } // sortHelper(T[], T[], int, int)
 
+
+
+  /**
+   * Splits the array into two subarrays and merges them together.
+   *
+   * @param values
+   *  an array to sort.
+   * @param tmp
+   *  a temporary array used to help sort the array.
+   * @param lb
+   *  the lowerbound of the current portion of the array being sorted.
+   * @param ub
+   *  the lowerbound of the current portion of the array being sorted.
+   */
   public void merge(T[] values, T[] tmp, int lb, int ub) {
 
     int mid = (lb + ((ub - lb) / 2));
 
     //Copy the values into the temporary array.
-    for(int i = lb; i <= ub; i++) {
+    for (int i = lb; i <= ub; i++) {
       tmp[i] = values[i];
-    }
+    } // for
 
     int valIndex = lb; // Index where we are sorting the smallest element.
     int startIndex = lb; // Index of left side of the array.
     int midIndex = mid + 1; // Index of right side of the array.
 
-    while((startIndex != mid + 1) && (midIndex != ub + 1)) {
-      if(order.compare(tmp[startIndex], tmp[midIndex]) <= 0) {
+    // Merge the left and right subarrays into the values array.
+    while ((startIndex != mid + 1) && (midIndex != ub + 1)) {
+      if (order.compare(tmp[startIndex], tmp[midIndex]) <= 0) {
         values[valIndex] = tmp[startIndex];
         startIndex++;
-      }
-      else {
+      } else {
         values[valIndex] = tmp[midIndex];
         midIndex++;
-      }
+      } // if/else
       valIndex++;
-    }
+    } // while-loop
 
-    while(startIndex != mid + 1) {
+    // Put the remaining elements in the array.
+    while (startIndex != mid + 1) {
       values[valIndex] = tmp[startIndex];
       startIndex++;
       valIndex++;
-    }
-  }
+    } // while-loop
+  } // merge(T[], T[], int, int)
 
 
 } // class MergeSorter

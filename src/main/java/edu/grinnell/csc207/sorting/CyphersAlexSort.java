@@ -8,12 +8,12 @@ import edu.grinnell.csc207.util.ArrayUtils;
  *
  * @param <T>
  *   The types of values that are sorted.
- * 
+ *
  * @author Alex Cyphers
  * @author Samuel A. Rebelsky
  */
 
-public class CyphersAlexSort <T> implements Sorter<T> {
+public class CyphersAlexSort<T> implements Sorter<T> {
   // +--------+------------------------------------------------------
   // | Fields |
   // +--------+
@@ -57,62 +57,67 @@ public class CyphersAlexSort <T> implements Sorter<T> {
    */
   @Override
   public void sort(T[] values) {
-    
-    if(values.length < 16) {
+
+    if (values.length < 16) {
       InsertionSorter<T> insertionSort = new InsertionSorter<>(order);
       insertionSort.sort(values);
-    }
-    else if(values.length < 10000) {
+    } else if (values.length < 10000) {
       fastQuickSort(values, 0, values.length - 1);
-    }
-    else {
+    } else {
       MergeSorter<T> mergeSort = new MergeSorter<>(order);
       mergeSort.sort(values);
-    }
-
+    } // if/else
   } // sort(T[])
 
 
-
+  /**
+   * Sort an array using quick sort with two pivots.
+   *
+   * @param values
+   *  an array to sort
+   *
+   * @param lb the lowerbound of the part of the array being sorted.
+   * @param hb the upperbound of the part of the array being sorted.
+   */
   public void fastQuickSort(T[] values, int lb, int hb) {
 
-    if(hb < lb) {
+    //Base case saying when there is no more array to sort.
+    if (lb >= hb) {
       return;
-    }
+    } // if
+
+    if (order.compare(values[lb], values[hb]) > 0) {
+      ArrayUtils.swap(values, lb, hb);
+    } // if
 
     T pivot1 = values[lb];
     T pivot2 = values[hb];
-
-    if(order.compare(values[lb], values[hb]) > 0) {
-      ArrayUtils.swap(values, lb, hb);
-    }
 
 
     int low = lb + 1;
     int high = hb - 1;
 
-
-    for(int i = lb + 1; i <= high; i++) {
-      if(order.compare(values[i], pivot1) < 0) {
+    //Inserts the pivot values into the proper parts of the array.
+    for (int i = lb + 1; i <= high; i++) {
+      if (order.compare(values[i], pivot1) < 0) {
         ArrayUtils.swap(values, i, low);
         low++;
-      }
-      else if(order.compare(values[i], pivot2) > 0) {
+      } else if (order.compare(values[i], pivot2) > 0) {
         ArrayUtils.swap(values, i, high);
         high--;
         i--;
-      }
-    }
+      } // else/if
+    } // for-loop
 
     low--;
     high++;
     ArrayUtils.swap(values, lb, low);
     ArrayUtils.swap(values, hb, high);
 
-    fastQuickSort(values, lb, low-1);
+    fastQuickSort(values, lb, low - 1);
     fastQuickSort(values, low + 1, high - 1);
     fastQuickSort(values, high + 1, hb);
 
-  }
+  } // fastQuickSort(T[], int, int)
 } // class InsertionSorter
 

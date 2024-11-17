@@ -7,7 +7,7 @@ import java.util.Comparator;
  *
  * @param <T>
  *   The types of values that are sorted.
- * 
+ *
  * @author Alex Cyphers
  * @author Samuel A. Rebelsky
  */
@@ -56,19 +56,19 @@ public class InsertionSorter<T> implements Sorter<T> {
    */
   @Override
   public void sort(T[] values) {
-  
-    for(int i = 1; i<values.length; i++){
 
-      int current = i-1;
+    //Performs insertion sort on the array.
+    for (int i = 1; i < values.length; i++) {
+
+      int current = i - 1;
 
       //Shifts all values that are more than the current value to the right.
-      while(current >= 0 && order.compare(values[current+1], values[i]) <= 0){
-        values[current+1] = values[current];
+      while (current >= 0 && order.compare(values[current + 1], values[i]) <= 0) {
+        values[current + 1] = values[current];
         current--;
-      }
+      } // while-loop
 
-      values[current+1] = values[i];
-    }
-
+      values[current + 1] = values[i];
+    } // for-loop
   } // sort(T[])
 } // class InsertionSorter

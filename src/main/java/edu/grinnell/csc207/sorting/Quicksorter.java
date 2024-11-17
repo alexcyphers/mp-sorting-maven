@@ -24,8 +24,11 @@ public class Quicksorter<T> implements Sorter<T> {
    */
   Comparator<? super T> order;
 
-
+  /**
+   * Allows us to use random numbers for the pivot.
+   */
   static Random rand = new Random();
+
 
   // +--------------+------------------------------------------------
   // | Constructors |
@@ -61,60 +64,68 @@ public class Quicksorter<T> implements Sorter<T> {
    */
   @Override
   public void sort(T[] values) {
-    
     sortHelper(values, 0, values.length - 1);
-    // STUB
   } // sort(T[])
 
 
   /**
-   * 
+   * Sorts the array of values using quick sort with recursion.
+   *
    * @param values
+   *  The array of values being sorted.
    * @param lb
+   *  The lower bound of the portion of the array being sorted.
    * @param ub
+   *  The upper bound of the portion of the array being sorted.
    */
   public void sortHelper(T[] values, int lb, int ub) {
 
-    if(ub < lb) {
+    // Base case saying when there is no more array to sort.
+    if (ub < lb) {
       return;
-    }
-    else {
-
+    } else {
       int pivot = partition(values, lb, ub);
 
       sortHelper(values, lb, pivot - 1); //Splits into left array
       sortHelper(values, pivot + 1, ub); //Splits into right array
-    }
+    } // if/else
+  } // sortHelper(T[], int, int)
 
-  }
 
-  
-  
+
   /**
-   * 
+   * Partitions a portion of the array by using a random pivot where
+   * all values less than the pivot are on the left and all values
+   * more than the pivot are to the right.
+   *
    * @param values
+   *  The array of values being sorted.
    * @param lb
+   *  The lower bound of the portion of the array being sorted.
    * @param ub
+   *  The upper bound of the portion of the array being sorted.
    * @return
+   *  A number representing the index of the pivot.
    */
   public int partition(T[] values, int lb, int ub) {
 
     int pivot = lb + rand.nextInt(ub - lb + 1);
-    //Find the random index for a pivot
+    //Find the random index for a pivot.
 
     int index = lb;
 
     ArrayUtils.swap(values, pivot, ub);
 
-    for(int i = lb; i < ub; i++) {
-      if(order.compare(values[i], values[ub]) < 0) {
+    // Shifts the elements of the array according to the pivot.
+    for (int i = lb; i < ub; i++) {
+      if (order.compare(values[i], values[ub]) < 0) {
         ArrayUtils.swap(values, index, i);
         index++;
-      }
-    }
+      } // if
+    } // for-loop
 
     ArrayUtils.swap(values, index, ub);
-    
+
     return index;
-  }
+  } // partition(T[], int, int)
 } // class Quicksorter
