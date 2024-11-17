@@ -57,16 +57,18 @@ public class CyphersAlexSort<T> implements Sorter<T> {
    */
   @Override
   public void sort(T[] values) {
-    fastQuickSort(values, 0, values.length - 1);
-    // if (values.length < 11) {
-    //   InsertionSorter<T> insertionSort = new InsertionSorter<>(order);
-    //   insertionSort.sort(values);
-    // } else if (values.length < 10000) {
-    //   fastQuickSort(values, 0, values.length - 1);
-    // } else {
-    //   MergeSorter<T> mergeSort = new MergeSorter<>(order);
-    //   mergeSort.sort(values);
-    // } // if/else
+    if (values.length < 11) {
+      InsertionSorter<T> insertionSort = new InsertionSorter<>(order);
+      insertionSort.sort(values);
+    } else if (isReversed(values)) {
+      Quicksorter<T> quickSort = new Quicksorter<>(order);
+      quickSort.sort(values);
+    } else if (values.length < 10000) {
+      fastQuickSort(values, 0, values.length - 1);
+    } else {
+      MergeSorter<T> mergeSort = new MergeSorter<>(order);
+      mergeSort.sort(values);
+    } // if/else
   } // sort(T[])
 
 
@@ -98,7 +100,7 @@ public class CyphersAlexSort<T> implements Sorter<T> {
     int high = hb - 1;
 
     //Inserts the pivot values into the proper parts of the array.
-    for (int i = lb + 1; i <= high;) {
+    for (int i = low; i <= high;) {
       if (order.compare(values[i], pivot1) < 0) {
         ArrayUtils.swap(values, i, low);
         low++;
@@ -115,14 +117,26 @@ public class CyphersAlexSort<T> implements Sorter<T> {
     high++;
     ArrayUtils.swap(values, lb, low);
     ArrayUtils.swap(values, hb, high);
-
+    
     fastQuickSort(values, lb, low - 1);
-
-    if(low + 1 <= high - 1) {
-      fastQuickSort(values, low + 1, high - 1);
-    } // if
-  
+    fastQuickSort(values, low + 1, high - 1);
     fastQuickSort(values, high + 1, hb);
   } // fastQuickSort(T[], int, int)
+
+
+  public Boolean isReversed(T[] values) {
+    //Check through the array until a value in order is found.
+    int expect = 0;
+    for (int i = 0; i < values.length - 1; i++) {
+      if (order.compare(values[i], values[i + 1]) < 0) {
+        expect++;
+      } // if
+
+      if (expect > values.length * 0.1) {
+        return false;
+      }
+    } // for-loop
+    return true;
+  }
 } // class InsertionSorter
 

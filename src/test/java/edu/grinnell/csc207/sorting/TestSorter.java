@@ -167,7 +167,7 @@ public class TestSorter {
    */
   @Test 
   public void reverseIntegersTest() { 
-    int SIZE = 20; 
+    int SIZE = 10000; 
     if (null == intSorter) { 
       return; 
     } // if
